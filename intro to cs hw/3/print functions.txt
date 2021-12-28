@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define BOARD_MAX_SIDE 9
+#define MIN_TOKENS 3
+
+#define RED_SLOT_SYMBOL ('R')
+#define YELLOW_SLOT_SYMBOL ('Y')
+#define EMPTY_SLOT_SYMBOL (' ')
+
+
+//----------------------- Message Identifiers --------------------------//
+#define MSG_GET_BOARD_ROWS   0
+#define MSG_GET_BOARD_COLS   1
+#define MSG_GET_NUMBER_TOKENS 2
+
+
+//--------------------------- Board Edges ------------------------------//
+
+#define BOARD_VERT_SEP  '|'
+#define BOARD_LEFT_ANG '\\'
+#define BOARD_RIGHT_ANG '/'
+#define BOARD_BOTTOM  '-'
+#define BOARD_BOTTOM_SEP '-'
+
+
+
+//----------------------------------------------------------------------//
+
+
+void print_welcome_message();
+void print_read_game_params_message(int param);
+void print_chose_color_message();
+void print_chose_move_message(int player);
+void print_enter_column_message();
+void print_full_column_message();
+void print_unavailable_undo_redo_message();
+
+
+/*
+ * Outputs game board.
+ *
+ * board - contains spaces for empty cells, 'Y' or 'R' for
+ *         respective player cells.
+ * board_side - contains board dimensions {rows, cols}
+ */
+void print_board(char board[][BOARD_MAX_SIDE], int board_side[]);
+
+/*
+ * Outputs winner or tie message.
+ *
+ * player_id - the id to be output. Pass <0 for tie.
+ */
+void print_winner(int player_id);
+
+//--------------------------- Main Program -----------------------------//
+
+int main()
+{
+    // TODO: Write code here
+    return 0;
+}
+
+
+//---------------------- Printing Functions ----------------------------//
+
+// message number 0 = "Welcome to 4-in-a-row game! \n"
+void print_welcome_message()
+{
+    printf("Welcome to 4-in-a-row game! \n");
+}
+
+
+// message number 1 = "Please enter number of rows:"
+// message number 2 = "Please enter number of columns:"
+// message number 3 = "Please enter number of tokens:"
+void print_read_game_params_message(int param)
+{
+	char const* const possible_params[] = {"rows", "columns", "tokens"};
+
+    printf("Please enter number of %s: ", possible_params[param]);
+}
+
+// message number 4 = "Please choose starting color (Y)ellow or (R)ed: "
+void print_chose_color_message()
+{
+    printf("Please choose starting color (Y)ellow or (R)ed: ");
+}
+
+// message number 5 = "Your move, player <player>. "
+void print_chose_move_message(int player)
+{
+    printf("Your move, player %d. ", player);
+}
+
+// message number 6
+void print_enter_column_message()
+{
+    printf("Please enter column: ");
+}
+
+void print_full_column_message()
+{
+    printf("Column full. ");
+}
+
+void print_unavailable_undo_redo_message()
+{
+    printf("No moves to undo/redo. ");
+}
+
+void print_board(char board[][BOARD_MAX_SIDE], int board_side[])
+{
+    assert(IS_IN_RANGEI(board_side[0], 0, BOARD_MAX_SIDE)
+        && IS_IN_RANGEI(board_side[1], 0, BOARD_MAX_SIDE));
+
+    for (int row = 0; row < board_side[0]; ++row)
+    {
+        printf("\n%c", BOARD_VERT_SEP);
+        for (int col = 0; col < board_side[1]; ++col)
+            printf("%c%c", board[row][col], BOARD_VERT_SEP);
+    }
+    printf("\n%c", BOARD_LEFT_ANG);
+    for (int ii = 0; ii < board_side[1] - 1; ++ii)
+        printf("%c%c", BOARD_BOTTOM, BOARD_BOTTOM_SEP);
+    printf("%c%c\n", BOARD_BOTTOM, BOARD_RIGHT_ANG);
+}
+
+void print_winner(int player_id)
+{
+    if (player_id >= 0)
+        printf("Player %d won! \n", player_id);
+    else
+        printf("That's a tie. \n");
+}
